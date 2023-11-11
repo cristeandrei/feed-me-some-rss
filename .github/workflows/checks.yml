@@ -9,7 +9,7 @@ name: check-job
 jobs:
   check-job:
     runs-on: ubuntu-latest
-    name: Pre Deploy Checks
+    name: Checks
     steps:
       # To use this repository's private action,
       # you must check out the repository

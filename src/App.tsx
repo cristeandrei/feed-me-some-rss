@@ -1,35 +1,25 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import { useEffect, useState } from "react";
+import { FeedPost, getFeedPosts } from "./feeds/feed.ts";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [feedPosts, setFeedPosts] = useState(Array<FeedPost>);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  const feedPostsLists = () =>
+    feedPosts.map((e, i) => (
+      <div key={i}>
+        <a href={e.link}>{e.title}</a>
+        <p>{e.summary}</p>
+        <p>{e.publish.toDateString()}</p>
+        <br />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+    ));
+
+  useEffect(() => {
+    getFeedPosts().then((e) => setFeedPosts(e));
+  }, []);
+
+  return <div>{feedPostsLists()}</div>;
 }
 
 export default App;
